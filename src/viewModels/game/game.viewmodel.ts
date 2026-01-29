@@ -1,12 +1,11 @@
 import { useEffect, useCallback } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { challengeThemes, createChallenge, Difficulty } from '@/models/challenge.model';
-import { useAnimationStore, type CardEntryAnimationType, getFallAnimationDuration, getEntryAnimationDuration, useAnimatedNavigation } from '@/animations';
+import { useAnimationStore, type CardEntryAnimationType, getFallAnimationDuration, getEntryAnimationDuration, useAnimatedNavigation, createSequence } from '@/animations';
 import { useAuthStore } from '@/store/auth';
 import { useGameStore } from '@/store/game';
 import { useRankingStore } from '@/store/ranking';
 
-// Custom hook with handlers for the view
 export function useGameViewHandlers() {
   const { navigateTo, goBack } = useAnimatedNavigation();
   const params = useLocalSearchParams<{ themeId: string; difficulty: string }>();
@@ -14,7 +13,6 @@ export function useGameViewHandlers() {
   const { saveGameResult } = useRankingStore();
   const { entryAnimationType, setEntryAnimationType, setIsAnimating } = useAnimationStore();
 
-  // Extract all store properties
   const {
     challenge,
     cards,
@@ -41,7 +39,6 @@ export function useGameViewHandlers() {
     hideAllCards,
   } = useGameStore();
 
-  // Initialize game when params change
   useEffect(() => {
     const theme = challengeThemes.find((t) => t.id === params.themeId);
     if (theme && params.difficulty) {
@@ -54,13 +51,13 @@ export function useGameViewHandlers() {
       const newChallenge = createChallenge(theme, params.difficulty as Difficulty);
       initGame(newChallenge);
 
-      setTimeout(() => {
-        setShowCountdown(true);
-      }, 500);
+      createSequence()
+        .wait(500)
+        .then(() => setShowCountdown(true))
+        .run();
     }
   }, [params.themeId, params.difficulty, initGame, setShowCountdown, setEntryAnimationType, setShouldAnimateEntry]);
 
-  // Handle game status changes (victory/defeat)
   useEffect(() => {
     if (status === 'finished') {
       const saveResult = async () => {
@@ -91,9 +88,10 @@ export function useGameViewHandlers() {
             userName
           );
         }
-        setTimeout(() => {
-          setShowDefeatModal(true);
-        }, getFallAnimationDuration());
+        createSequence()
+          .wait(getFallAnimationDuration())
+          .then(() => setShowDefeatModal(true))
+          .run();
       };
       saveResult();
     }
@@ -106,36 +104,39 @@ export function useGameViewHandlers() {
 
     const totalAnimationTime = getEntryAnimationDuration(cards.length, entryAnimationType);
 
-    setTimeout(() => {
-      setIsAnimating(false);
-      previewAllCards();
-
-      setTimeout(() => {
-        hideAllCards();
-
-        setTimeout(() => {
-          startGame();
-        }, 300);
-      }, 2000);
-    }, totalAnimationTime);
+    createSequence()
+      .wait(totalAnimationTime)
+      .then(() => {
+        setIsAnimating(false);
+        previewAllCards();
+      })
+      .wait(2000)
+      .then(() => hideAllCards())
+      .wait(300)
+      .then(() => startGame())
+      .run();
   }, [setShowCountdown, setShouldAnimateEntry, startGame, cards.length, setIsAnimating, previewAllCards, hideAllCards, entryAnimationType]);
 
   const handlePlayAgain = useCallback(() => {
     setShowVictoryModal(false);
     setShouldAnimateEntry(false);
     resetGame();
-    setTimeout(() => {
-      setShowCountdown(true);
-    }, 300);
+
+    createSequence()
+      .wait(300)
+      .then(() => setShowCountdown(true))
+      .run();
   }, [setShowVictoryModal, setShouldAnimateEntry, resetGame, setShowCountdown]);
 
   const handleTryAgain = useCallback(() => {
     setShowDefeatModal(false);
     setShouldAnimateEntry(false);
     resetGame();
-    setTimeout(() => {
-      setShowCountdown(true);
-    }, 300);
+
+    createSequence()
+      .wait(300)
+      .then(() => setShowCountdown(true))
+      .run();
   }, [setShowDefeatModal, setShouldAnimateEntry, resetGame, setShowCountdown]);
 
   const handleGoToHistory = useCallback(() => {
@@ -163,7 +164,6 @@ export function useGameViewHandlers() {
   }, [setShowExitModal]);
 
   return {
-    // Game state
     challenge,
     cards,
     status,
@@ -172,14 +172,12 @@ export function useGameViewHandlers() {
     moves,
     selectCard,
 
-    // UI state
     showVictoryModal,
     showDefeatModal,
     showExitModal,
     showCountdown,
     shouldAnimateEntry,
 
-    // View handlers
     handleCountdownComplete,
     handlePlayAgain,
     handleTryAgain,
@@ -188,7 +186,6 @@ export function useGameViewHandlers() {
     handleConfirmExit,
     handleCancelExit,
 
-    // Computed properties
     disabled: status !== 'playing',
   };
 }

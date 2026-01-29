@@ -10,6 +10,7 @@ import {
   ANIMATION_EASINGS,
   ANIMATION_TIMINGS,
   ENTRY_ANIMATION_START_POSITIONS,
+  SPRING_CONFIGS,
 } from "../config/animation.config";
 import { useAnimationStore } from "../store/animation.store";
 
@@ -42,33 +43,22 @@ export function useCardEntryAnimation({
 
         translateX.value = withDelay(
           delay,
-          withSpring(0, {
-            damping: 25,
-            stiffness: 180,
-          }),
+          withSpring(0, SPRING_CONFIGS.entryThrow),
         );
 
         translateY.value = withDelay(
           delay,
-          withSpring(0, {
-            damping: 25,
-            stiffness: 180,
-          }),
+          withSpring(0, SPRING_CONFIGS.entryThrow),
         );
 
         rotation.value = withDelay(
           delay,
-          withSpring(0, {
-            damping: 22,
-            stiffness: 140,
-          }),
+          withSpring(0, SPRING_CONFIGS.entryDeck),
         );
       } else {
-        // Start from center-bottom (deck position)
         translateX.value = ENTRY_ANIMATION_START_POSITIONS.deck.x;
         translateY.value = ENTRY_ANIMATION_START_POSITIONS.deck.y;
 
-        // Animate to natural flexbox position (0, 0)
         translateX.value = withDelay(
           delay,
           withTiming(0, {
@@ -89,10 +79,7 @@ export function useCardEntryAnimation({
       opacity.value = withDelay(delay, withTiming(1, { duration: 150 }));
       scale.value = withDelay(
         delay,
-        withSpring(1, {
-          damping: 22,
-          stiffness: 180,
-        }),
+        withSpring(1, SPRING_CONFIGS.entryScale),
       );
     }
   }, [shouldAnimate, cardIndex, entryAnimationType]);

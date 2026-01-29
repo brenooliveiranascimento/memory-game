@@ -1,22 +1,16 @@
 import { useSharedValue, useAnimatedStyle, withSequence, withTiming, withSpring } from 'react-native-reanimated';
-import { ANIMATION_TIMINGS } from '../config/animation.config';
+import { ANIMATION_TIMINGS, SPRING_CONFIGS } from '../config/animation.config';
 
 export function useCardSuccessAnimation() {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
   const playSuccess = () => {
-    const { duration, scale: successScale } = ANIMATION_TIMINGS.success;
+    const { scale: successScale } = ANIMATION_TIMINGS.success;
 
     scale.value = withSequence(
-      withSpring(successScale, {
-        damping: 8,
-        stiffness: 100,
-      }),
-      withSpring(1, {
-        damping: 10,
-        stiffness: 80,
-      })
+      withSpring(successScale, SPRING_CONFIGS.successBounce),
+      withSpring(1, SPRING_CONFIGS.successSettle)
     );
   };
 

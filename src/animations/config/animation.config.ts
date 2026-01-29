@@ -1,5 +1,48 @@
-import { Easing } from 'react-native-reanimated';
+import { Easing, WithSpringConfig } from 'react-native-reanimated';
 import type { AnimationTimings, ParticleConfig } from '../types/animation.types';
+
+export const SPRING_CONFIGS = {
+  selection: {
+    damping: 15,
+    stiffness: 300,
+  } as WithSpringConfig,
+
+  successBounce: {
+    damping: 8,
+    stiffness: 100,
+  } as WithSpringConfig,
+
+  successSettle: {
+    damping: 10,
+    stiffness: 80,
+  } as WithSpringConfig,
+
+  entryThrow: {
+    damping: 25,
+    stiffness: 180,
+  } as WithSpringConfig,
+
+  entryDeck: {
+    damping: 22,
+    stiffness: 140,
+  } as WithSpringConfig,
+
+  entryScale: {
+    damping: 22,
+    stiffness: 180,
+  } as WithSpringConfig,
+
+  press: {
+    damping: 15,
+    stiffness: 150,
+  } as WithSpringConfig,
+
+  modal: {
+    damping: 25,
+    stiffness: 120,
+    mass: 1,
+  } as WithSpringConfig,
+};
 
 export const ANIMATION_TIMINGS: AnimationTimings = {
   entry: {

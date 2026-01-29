@@ -3,19 +3,18 @@ import {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  WithSpringConfig,
 } from "react-native-reanimated";
+import { SPRING_CONFIGS } from "../config/animation.config";
 
 interface UsePressAnimationConfig {
   scaleActive?: number;
-  springConfig?: {
-    damping?: number;
-    stiffness?: number;
-  };
+  springConfig?: WithSpringConfig;
 }
 
 export function usePressAnimation({
   scaleActive = 0.95,
-  springConfig = { damping: 15, stiffness: 150 },
+  springConfig = SPRING_CONFIGS.press,
 }: UsePressAnimationConfig = {}) {
   const scale = useSharedValue(1);
 

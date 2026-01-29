@@ -16,12 +16,6 @@ export interface CardAnimationConfig {
   easing?: any;
 }
 
-export interface CardPosition {
-  x: number;
-  y: number;
-  index: number;
-}
-
 export interface AnimationTimings {
   entry: {
     throw: {

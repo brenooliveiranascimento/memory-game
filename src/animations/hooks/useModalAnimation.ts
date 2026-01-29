@@ -1,11 +1,10 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, runOnJS } from 'react-native-reanimated';
+import { SPRING_CONFIGS, ANIMATION_TIMINGS } from '../config/animation.config';
 
 interface UseModalAnimationProps {
   visible: boolean;
 }
-
-const EXIT_ANIMATION_DURATION = 300;
 
 export function useModalAnimation({ visible }: UseModalAnimationProps) {
   const translateY = useSharedValue(-1000);
@@ -14,15 +13,8 @@ export function useModalAnimation({ visible }: UseModalAnimationProps) {
 
   useEffect(() => {
     if (visible) {
-      translateY.value = withSpring(0, {
-        damping: 25,
-        stiffness: 120,
-        mass: 1,
-      });
-      opacity.value = withSpring(1, {
-        damping: 25,
-        stiffness: 120,
-      });
+      translateY.value = withSpring(0, SPRING_CONFIGS.modal);
+      opacity.value = withSpring(1, SPRING_CONFIGS.modal);
     } else {
       translateY.value = -1000;
       opacity.value = 0;
@@ -38,9 +30,10 @@ export function useModalAnimation({ visible }: UseModalAnimationProps) {
 
   const close = useCallback((callback: () => void) => {
     pendingCallbackRef.current = callback;
+    const exitDuration = ANIMATION_TIMINGS.exit.duration;
 
-    translateY.value = withTiming(1000, { duration: EXIT_ANIMATION_DURATION });
-    opacity.value = withTiming(0, { duration: EXIT_ANIMATION_DURATION }, (finished) => {
+    translateY.value = withTiming(1000, { duration: exitDuration });
+    opacity.value = withTiming(0, { duration: exitDuration }, (finished) => {
       if (finished) {
         runOnJS(executeCallback)();
       }
