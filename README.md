@@ -1,50 +1,162 @@
-# Welcome to your Expo app 👋
+# Memory Game - Jogo da Memória Animado
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo educacional de jogo da memória com React Native, focado em ensinar animações com Gesture Handler e Reanimated.
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Início Rápido
 
 ```bash
-npm run reset-project
+# Instalar dependências
+npm install
+
+# Iniciar desenvolvimento
+npm start
+
+# Android
+npm run android
+
+# iOS
+npm run ios
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Estrutura do Projeto (MVVM)
 
-## Learn more
+```
+src/
+├── models/              # Entidades de domínio
+├── viewmodels/          # Lógica de apresentação (Zustand)
+├── views/               # Componentes UI
+│   └── components/
+│       ├── ui/          # Componentes reutilizáveis
+│       └── game/        # Componentes de jogo
+├── services/            # Lógica de negócio
+├── repositories/        # Persistência de dados
+├── app/                 # Rotas (Expo Router)
+├── constants/           # Constantes
+└── utils/              # Utilitários
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Stack
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- React Native + Expo
+- TypeScript
+- Zustand (estado global)
+- Reanimated + Gesture Handler (animações)
+- AsyncStorage (persistência)
+- Expo Router (navegação)
 
-## Join the community
+## Documentação Completa
 
-Join our community of developers creating universal apps.
+Veja [CLAUDE.md](./CLAUDE.md) para documentação detalhada incluindo:
+- Arquitetura MVVM completa
+- Guia de animações
+- Fluxo de telas
+- Boas práticas
+- APIs e componentes
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Arquitetura MVVM
+
+### Model
+Entidades puras que representam dados do domínio.
+- src/models/user.model.ts
+- src/models/card.model.ts
+- src/models/game.model.ts
+- src/models/challenge.model.ts
+- src/models/score.model.ts
+
+### ViewModel
+Stores Zustand que gerenciam estado e orquestram services.
+- src/viewmodels/auth.viewmodel.ts
+- src/viewmodels/game.viewmodel.ts
+- src/viewmodels/ranking.viewmodel.ts
+
+### View
+Componentes React que renderizam a UI.
+- src/views/components/ui/ - Componentes reutilizáveis
+- src/views/components/game/ - Componentes de jogo
+- src/app/ - Telas (Expo Router)
+
+### Service
+Funções puras com lógica de negócio.
+- src/services/game.service.ts
+- src/services/card.service.ts
+- src/services/timer.service.ts
+- src/services/haptic.service.ts
+
+### Repository
+Camada de persistência (AsyncStorage).
+- src/repositories/storage.repository.ts
+- src/repositories/auth.repository.ts
+- src/repositories/ranking.repository.ts
+
+## Telas
+
+1. **Login** - Entrada do jogador
+2. **Home** - Seleção de desafios
+3. **Countdown** - Contagem 3, 2, 1
+4. **Game** - Jogo da memória
+5. **Finish** - Resultado final
+6. **Ranking** - Histórico de partidas
+
+## Categorias
+
+- Linguagens de Programação (Fácil - 5min)
+- Frameworks e Bibliotecas (Médio - 7min)
+- Ferramentas de Desenvolvimento (Difícil - 10min)
+
+## Recursos de Aprendizado
+
+### Animações Implementadas
+- Card flip 3D (rotateY)
+- Countdown com scale
+- Match celebration
+- Micro-interações em botões
+- Feedback háptico
+
+### Conceitos Abordados
+- Shared Values
+- Animated Styles
+- Gesture Composition
+- Worklets
+- Layout Animations
+
+## Próximos Passos
+
+Para implementar as telas:
+
+1. **Atualizar rotas existentes** em src/app/ para usar os novos ViewModels
+2. **Criar componentes de tela** usando componentes UI base
+3. **Implementar animações** com Reanimated
+4. **Integrar feedback háptico** nos eventos
+
+## Exemplo de Uso
+
+```typescript
+// Em uma tela de jogo
+import { useGameViewModel } from '@/viewmodels/game.viewmodel';
+import { GameCard } from '@/views/components/game/game-card';
+
+export default function GameScreen() {
+  const { cards, selectCard } = useGameViewModel();
+
+  return (
+    <View>
+      {cards.map((card) => (
+        <GameCard
+          key={card.id}
+          card={card}
+          onPress={selectCard}
+        />
+      ))}
+    </View>
+  );
+}
+```
+
+## Licença
+
+Projeto educacional desenvolvido para ensinar animações em React Native.
+
+---
+
+**Autor:** Breno Nascimento
+**Objetivo:** Ensinar animações com React Native Reanimated
