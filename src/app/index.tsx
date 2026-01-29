@@ -12,7 +12,7 @@ export default function Index() {
   useEffect(() => {
     if (isAuthenticated !== undefined) {
       setTimeout(() => {
-        if (!isAuthenticated) {
+        if (isAuthenticated) {
           router.replace("/(private)/home");
         } else {
           router.replace("/(public)/login");
