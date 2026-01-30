@@ -12,3 +12,4 @@ export * from './hooks/usePressAnimation';
 export * from './hooks/useNumberAnimation';
 export * from './hooks/useModalAnimation';
 export * from './screenTransition';
+export * from './components/Confetti';

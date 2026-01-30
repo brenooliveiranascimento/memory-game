@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { colors } from '@/constants/colors';
@@ -10,7 +11,7 @@ interface GameHeaderProps {
 }
 
 export function GameHeader({ timeRemaining, onBack }: GameHeaderProps) {
-  const { timeString, isLowTime } = useGameHeaderViewModel({ timeRemaining });
+  const { timeString, isLowTime, isCriticalTime, timerAnimatedStyle } = useGameHeaderViewModel({ timeRemaining });
 
   return (
     <View style={styles.container}>
@@ -18,7 +19,7 @@ export function GameHeader({ timeRemaining, onBack }: GameHeaderProps) {
         <MaterialCommunityIcons name="chevron-left" size={32} color={colors.grayscale.white} />
       </Pressable>
 
-      <View style={styles.timerContainer}>
+      <Animated.View style={[styles.timerContainer, isCriticalTime && styles.timerContainerCritical, timerAnimatedStyle]}>
         <MaterialCommunityIcons
           name="clock-outline"
           size={20}
@@ -27,7 +28,7 @@ export function GameHeader({ timeRemaining, onBack }: GameHeaderProps) {
         <Text style={[styles.timerText, isLowTime && styles.timerTextLow]}>
           {timeString}
         </Text>
-      </View>
+      </Animated.View>
     </View>
   );
 }
@@ -57,6 +58,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 24,
     gap: 8,
+  },
+  timerContainerCritical: {
+    backgroundColor: 'rgba(255, 59, 48, 0.2)',
+    borderWidth: 1,
+    borderColor: colors.semantic.error,
   },
   timerText: {
     fontSize: 18,

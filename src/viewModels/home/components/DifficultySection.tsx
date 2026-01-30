@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import Animated from "react-native-reanimated";
+import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
+import Animated, { AnimatedStyle } from "react-native-reanimated";
 
 import { useNumberAnimation } from "@/animations";
 import { DifficultyIcon } from "@/components/DifficultyIcon";
@@ -13,7 +13,7 @@ interface DifficultySectionProps {
   difficultyConfig: DifficultyConfig;
   onSelectDifficulty: (difficulty: Difficulty) => void;
   getDifficultyColor: (difficulty: Difficulty) => string;
-  indicatorAnimatedStyle: any;
+  indicatorAnimatedStyle: AnimatedStyle<ViewStyle>;
 }
 
 export function DifficultySection({

@@ -1,11 +1,11 @@
-import { Difficulty } from './challenge.model';
+import { Difficulty } from "./challenge.model";
 
 export interface GameScore {
   id: string;
   playerName: string;
   category: string;
   difficulty: Difficulty;
-  time: number; // tempo em segundos
+  time: number;
   moves: number;
   date: Date;
   completed: boolean;

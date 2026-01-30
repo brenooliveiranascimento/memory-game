@@ -11,6 +11,7 @@ interface GameStore extends GameState {
   pauseGame: () => void;
   resumeGame: () => void;
   resetGame: () => void;
+  clearGame: () => void;
   finishGame: () => GameResult | null;
   selectCard: (cardId: string) => void;
   resetMismatchedCards: () => void;
@@ -95,6 +96,28 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set(newState);
     get().stopTimer();
     HapticService.medium();
+  },
+
+  clearGame: () => {
+    get().stopTimer();
+    set({
+      status: 'idle',
+      challenge: null,
+      cards: [],
+      selectedCards: [],
+      matchedPairs: 0,
+      totalPairs: 0,
+      moves: 0,
+      timeRemaining: 0,
+      timeElapsed: 0,
+      startedAt: null,
+      showVictoryModal: false,
+      showDefeatModal: false,
+      showExitModal: false,
+      showCountdown: false,
+      shouldAnimateEntry: false,
+      isPreviewingCards: false,
+    });
   },
 
   finishGame: () => {

@@ -1,6 +1,7 @@
 import { DifficultyIcon } from "@/components/DifficultyIcon";
 import { colors } from "@/constants/colors";
 import { Difficulty } from "@/models/challenge.model";
+import { getDifficultyColor } from "@/utils/difficulty";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -19,17 +20,6 @@ export function MatchHistoryCard({
   time,
   difficulty,
 }: MatchHistoryCardProps) {
-  const getDifficultyColor = (diff: Difficulty) => {
-    switch (diff) {
-      case "Fácil":
-        return colors.semantic.success;
-      case "Médio":
-        return colors.semantic.warning;
-      case "Difícil":
-        return colors.semantic.error;
-    }
-  };
-
   const getPositionColor = (pos: number) => {
     if (pos === 1) return "#FFD700";
     if (pos === 2) return colors.grayscale.gray200;

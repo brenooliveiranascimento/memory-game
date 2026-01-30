@@ -24,6 +24,7 @@ export function useGameViewHandlers() {
     initGame,
     startGame,
     resetGame,
+    clearGame,
     stopTimer,
     showVictoryModal,
     showDefeatModal,
@@ -140,10 +141,9 @@ export function useGameViewHandlers() {
   }, [setShowDefeatModal, setShouldAnimateEntry, resetGame, setShowCountdown]);
 
   const handleGoToHistory = useCallback(() => {
-    setShowVictoryModal(false);
-    setShowDefeatModal(false);
+    clearGame();
     navigateTo('/(private)/history');
-  }, [setShowVictoryModal, setShowDefeatModal, navigateTo]);
+  }, [clearGame, navigateTo]);
 
   const handleBack = useCallback(() => {
     if (status === 'playing') {

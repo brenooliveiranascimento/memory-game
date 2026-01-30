@@ -1,49 +1,50 @@
-import { create } from 'zustand';
+import { useState, useCallback } from 'react';
 import { useAuthStore } from '@/store/auth';
 
-interface LoginViewModel {
-  name: string;
-  isLoading: boolean;
-  error: string | null;
-  setName: (name: string) => void;
-  handleLogin: () => Promise<boolean>;
-  clearError: () => void;
-}
+export function useLoginViewModel() {
+  const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-export const useLoginViewModel = create<LoginViewModel>((set, get) => ({
-  name: '',
-  isLoading: false,
-  error: null,
+  const { setAuthenticated } = useAuthStore();
 
-  setName: (name: string) => {
-    set({ name, error: null });
-  },
+  const handleNameChange = useCallback((value: string) => {
+    setName(value);
+    setError(null);
+  }, []);
 
-  handleLogin: async () => {
-    const { name } = get();
+  const handleLogin = useCallback(async () => {
     const trimmedName = name.trim();
 
     if (!trimmedName) {
-      set({ error: 'Por favor, digite seu nome' });
+      setError('Por favor, digite seu nome');
       return false;
     }
 
-    set({ isLoading: true, error: null });
+    setIsLoading(true);
+    setError(null);
 
     try {
-      useAuthStore.getState().setAuthenticated(true, trimmedName);
-      set({ isLoading: false });
+      await setAuthenticated(true, trimmedName);
+      setIsLoading(false);
       return true;
     } catch {
-      set({
-        error: 'Erro ao fazer login. Tente novamente.',
-        isLoading: false,
-      });
+      setError('Erro ao fazer login. Tente novamente.');
+      setIsLoading(false);
       return false;
     }
-  },
+  }, [name, setAuthenticated]);
 
-  clearError: () => {
-    set({ error: null });
-  },
-}));
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  return {
+    name,
+    isLoading,
+    error,
+    setName: handleNameChange,
+    handleLogin,
+    clearError,
+  };
+}

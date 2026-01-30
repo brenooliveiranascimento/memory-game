@@ -12,6 +12,7 @@ import {
   useAnimationStore,
   ANIMATION_TIMINGS,
 } from '@/animations';
+import { HapticService } from '@/services/haptic.service';
 
 interface UseGameCardViewModelProps {
   card: Card;
@@ -49,6 +50,7 @@ export function useGameCardViewModel({
 
   const flipCard = () => {
     if (!disabled && !card.isMatched && !card.isFlipped && !isAnimating) {
+      HapticService.light();
       onPress(card.id);
     }
   };
@@ -94,6 +96,7 @@ export function useGameCardViewModel({
 
   useEffect(() => {
     if (card.isMatched && !previousMatchState.current) {
+      HapticService.success();
       success.playSuccess();
       setTimeout(() => {
         success.fadeOut();
@@ -107,6 +110,7 @@ export function useGameCardViewModel({
     const isNowFlipped = card.isFlipped;
 
     if (wasFlipped && !isNowFlipped && !card.isMatched) {
+      HapticService.warning();
       shake.shake();
     }
 
@@ -116,6 +120,7 @@ export function useGameCardViewModel({
   useEffect(() => {
     if (gameStatus === 'timeout' && !card.isMatched && !hasFallen.current) {
       hasFallen.current = true;
+      HapticService.error();
       const randomDelay = Math.random() * ANIMATION_TIMINGS.fall.maxRandomDelay;
       timeout.fall(randomDelay);
     }
@@ -145,6 +150,7 @@ export function useGameCardViewModel({
 
   const handlePress = () => {
     if (!disabled && !card.isMatched && !card.isFlipped && !isAnimating) {
+      HapticService.light();
       onPress(card.id);
     }
   };

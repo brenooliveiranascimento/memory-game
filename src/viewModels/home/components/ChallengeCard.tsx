@@ -7,7 +7,7 @@ import { usePressAnimation } from "@/animations";
 interface ChallengeCardProps {
   id: string;
   title: string;
-  gradient: string[];
+  gradient: readonly [string, string, ...string[]];
   arrowColor: string;
   onPress: (id: string) => void;
 }
@@ -23,7 +23,7 @@ export function ChallengeCard({
 
   return (
     <LinearGradient
-      colors={gradient as any || ["#121228", "#020916"]}
+      colors={gradient}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={styles.challengeCard}

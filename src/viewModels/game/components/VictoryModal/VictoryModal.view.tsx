@@ -6,7 +6,7 @@ import Animated from 'react-native-reanimated';
 
 import { colors, gradients } from '@/constants/colors';
 import { useVictoryModalViewModel } from './VictoryModal.viewmodel';
-import { usePressAnimation, useModalAnimation } from '@/animations';
+import { usePressAnimation, useModalAnimation, ConfettiEffect } from '@/animations';
 
 interface VictoryModalProps {
   visible: boolean;
@@ -39,6 +39,13 @@ export function VictoryModal({ visible, timeElapsed, moves, onPlayAgain, onGoHom
       animationType="none"
     >
       <BlurView intensity={80} tint="dark" style={styles.overlay}>
+        <ConfettiEffect
+          active={visible}
+          burstCount={35}
+          continuousCount={2}
+          continuousInterval={600}
+        />
+
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
           <MaterialCommunityIcons name="trophy" size={64} color={colors.accent.purple} />
 
@@ -104,6 +111,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     alignItems: 'center',
+    zIndex: 10,
   },
   title: {
     fontSize: 28,
