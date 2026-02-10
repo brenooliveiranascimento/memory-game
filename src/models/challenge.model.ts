@@ -1,5 +1,5 @@
-import { ImageSourcePropType } from "react-native";
 import { gradients } from "@/constants/colors";
+import { ImageSourcePropType } from "react-native";
 
 export type Difficulty = "Fácil" | "Médio" | "Difícil";
 
@@ -61,12 +61,18 @@ export const challengeThemes: ChallengeTheme[] = [
     title: "Linguagens de Programação",
     icon: "💻",
     cards: [
-      { name: "JavaScript", image: require("@/assets/images/JavaScript-logo.png") },
+      {
+        name: "JavaScript",
+        image: require("@/assets/images/JavaScript-logo.png"),
+      },
       { name: "TypeScript", image: require("@/assets/images/ts.png") },
       { name: "Python", image: require("@/assets/images/python--v2.png") },
       { name: "Java", image: require("@/assets/images/java.png") },
       { name: "C#", image: require("@/assets/images/csharp.png") },
-      { name: "Ruby", image: require("@/assets/images/ruby-programming-language.jpg") },
+      {
+        name: "Ruby",
+        image: require("@/assets/images/ruby-programming-language.jpg"),
+      },
     ],
     gradient: gradients.purpleDark as [string, string],
     arrowColor: "#9D7FF5",
@@ -76,12 +82,18 @@ export const challengeThemes: ChallengeTheme[] = [
     title: "Frameworks e Bibliotecas",
     icon: "⚡",
     cards: [
-      { name: "React", image: require("@/assets/images/icon.png") },
+      { name: "React", image: require("@/assets/images/react.png") },
       { name: "Vue", image: require("@/assets/images/vue_icon_130791.png") },
       { name: "Angular", image: require("@/assets/images/angularjs.jpg") },
       { name: "Next.js", image: require("@/assets/images/nextjs.jpg") },
-      { name: "React Native", image: require("@/assets/images/icon.png") },
-      { name: "Svelte", image: require("@/assets/images/svelte-logo-by-gengns.png") },
+      {
+        name: "React Native",
+        image: require("@/assets/images/react-native.png"),
+      },
+      {
+        name: "Svelte",
+        image: require("@/assets/images/svelte-logo-by-gengns.png"),
+      },
     ],
     gradient: gradients.blueDark as [string, string],
     arrowColor: "#7DAFFF",
@@ -93,7 +105,10 @@ export const challengeThemes: ChallengeTheme[] = [
     cards: [
       { name: "Git", image: require("@/assets/images/git.jpg") },
       { name: "Docker", image: require("@/assets/images/docker-icon.png") },
-      { name: "Kubernetes", image: require("@/assets/images/kubernet.svg.png") },
+      {
+        name: "Kubernetes",
+        image: require("@/assets/images/kubernet.svg.png"),
+      },
       { name: "Jenkins", image: require("@/assets/images/jeikins.svg.png") },
       { name: "VSCode" },
       { name: "GitHub" },

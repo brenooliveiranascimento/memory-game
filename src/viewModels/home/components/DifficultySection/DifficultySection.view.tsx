@@ -1,32 +1,21 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
-import Animated, { AnimatedStyle } from "react-native-reanimated";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Animated from "react-native-reanimated";
 
-import { useNumberAnimation } from "@/animations";
 import { DifficultyIcon } from "@/components/DifficultyIcon";
 import { colors } from "@/constants/colors";
-import type { Difficulty, DifficultyConfig } from "@/models/challenge.model";
+import { useDifficultySectionViewModel } from "./DifficultySection.viewmodel";
 
-interface DifficultySectionProps {
-  selectedDifficulty: Difficulty;
-  difficulties: readonly Difficulty[];
-  difficultyConfig: DifficultyConfig;
-  onSelectDifficulty: (difficulty: Difficulty) => void;
-  getDifficultyColor: (difficulty: Difficulty) => string;
-  indicatorAnimatedStyle: AnimatedStyle<ViewStyle>;
-}
-
-export function DifficultySection({
-  selectedDifficulty,
-  difficulties,
-  difficultyConfig,
-  onSelectDifficulty,
-  getDifficultyColor,
-  indicatorAnimatedStyle,
-}: DifficultySectionProps) {
-  const { animatedStyle: timeAnimatedStyle } = useNumberAnimation(
-    difficultyConfig.estimatedTime,
-  );
+export function DifficultySection() {
+  const {
+    selectedDifficulty,
+    difficulties,
+    difficultyConfig,
+    handleSelectDifficulty,
+    getDifficultyColor,
+    indicatorAnimatedStyle,
+    timeAnimatedStyle,
+  } = useDifficultySectionViewModel();
 
   return (
     <View style={styles.difficultySection}>
@@ -56,7 +45,7 @@ export function DifficultySection({
             <Pressable
               key={difficulty}
               style={styles.difficultyTab}
-              onPress={() => onSelectDifficulty(difficulty)}
+              onPress={() => handleSelectDifficulty(difficulty)}
             >
               <DifficultyIcon
                 difficulty={difficulty}

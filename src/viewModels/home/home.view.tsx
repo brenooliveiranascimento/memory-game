@@ -1,22 +1,16 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import { colors } from "@/constants/colors";
 import { AnimatedGroup } from "@/animations";
+import { colors } from "@/constants/colors";
 import { ChallengesList, DifficultySection, HomeHeader } from "./components";
 import { useHomeViewModel } from "./home.viewmodel";
 
 export function HomeView() {
   const {
     userName,
-    selectedDifficulty,
-    difficulties,
-    difficultyConfig,
     challengeThemes,
-    handleSelectDifficulty,
     handleSelectChallenge,
     handleGoToHistory,
-    getDifficultyColor,
-    indicatorAnimatedStyle,
   } = useHomeViewModel();
 
   return (
@@ -32,14 +26,7 @@ export function HomeView() {
         style={styles.content}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <DifficultySection
-            selectedDifficulty={selectedDifficulty}
-            difficulties={difficulties}
-            difficultyConfig={difficultyConfig}
-            onSelectDifficulty={handleSelectDifficulty}
-            getDifficultyColor={getDifficultyColor}
-            indicatorAnimatedStyle={indicatorAnimatedStyle}
-          />
+          <DifficultySection />
 
           <ChallengesList
             challenges={challengeThemes.slice(0, 3)}
@@ -61,4 +48,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
 });
-
